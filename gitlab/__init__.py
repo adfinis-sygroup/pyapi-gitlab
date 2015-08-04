@@ -1551,6 +1551,27 @@ class Gitlab(object):
         if request.status_code == 200:
             return json.loads(request.content.decode("utf-8"))
         else:
+
+            return False
+
+    def searchgroup(self, search, page=1, per_page=20):
+        """Search for groups by name and/or path which are accessible to the
+        authenticated user
+
+        :param search: query to search for
+        :return: list of results
+        """
+        data = {'page': page, 'per_page': per_page}
+        request = requests.get(
+            "{0}?search={1}".format(self.groups_url, search),
+            params=data,
+            verify=self.verify_ssl,
+            headers=self.headers
+        )
+
+        if request.status_code == 200:
+            return json.loads(request.content.decode("utf-8"))
+        else:
             return False
 
     def getfilearchive(self, project_id, filepath=""):
