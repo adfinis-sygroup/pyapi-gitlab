@@ -1551,10 +1551,9 @@ class Gitlab(object):
         if request.status_code == 200:
             return json.loads(request.content.decode("utf-8"))
         else:
-
             return False
 
-    def searchgroup(self, search, page=1, per_page=20):
+    def searchgroup(self, search, page=1, per_page=20, verify_ssl=self.verify_ssl):
         """Search for groups by name and/or path which are accessible to the
         authenticated user
 
@@ -1565,7 +1564,7 @@ class Gitlab(object):
         request = requests.get(
             "{0}?search={1}".format(self.groups_url, search),
             params=data,
-            verify=self.verify_ssl,
+            verify=verify_ssl,
             headers=self.headers
         )
 
