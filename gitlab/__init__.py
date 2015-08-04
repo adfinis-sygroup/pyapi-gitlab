@@ -1553,13 +1553,14 @@ class Gitlab(object):
         else:
             return False
 
-    def searchgroup(self, search, page=1, per_page=20, verify_ssl=self.verify_ssl):
+    def searchgroup(self, search, page=1, per_page=20, verify_ssl=True):
         """Search for groups by name and/or path which are accessible to the
         authenticated user
 
         :param search: query to search for
         :return: list of results
         """
+        verify_ssl = verify_ssl or self.verify_ssl
         data = {'page': page, 'per_page': per_page}
         request = requests.get(
             "{0}?search={1}".format(self.groups_url, search),
