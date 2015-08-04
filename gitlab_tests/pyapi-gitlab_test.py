@@ -233,6 +233,14 @@ class GitlabTest(unittest.TestCase):
         self.assertGreater(len(self.git.searchproject(self.project['name'])), 0)
         assert isinstance(self.git.searchproject(self.project['name']), list)
 
+    def test_searchgroup(self):
+        for group in self.git.getgroups():
+            self.git.deletegroup(group["id"])
+        assert isinstance(self.git.creategroup("test_group", "test_group"), dict)
+        found_groups = self.git.searchgroup("test_group")
+        self.assertGreater(len(found_groups), 0)
+        assert isinstance(found_groups, list)
+
     def test_filearchive(self):
         # test it works
         self.assertTrue(self.git.getfilearchive(self.project_id, self.project["name"] + ".tar.gz"))
